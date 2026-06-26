@@ -2,11 +2,20 @@
   "name": "mi-suite-automation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "report": "playwright show-report",
+    "exploratorio:registro": "node scripts/exploratorio-registroEstudiante.mjs",
+    "exploratorio:login": "node scripts/exploratorio-IniciarSesionReporte.mjs",
+    "exploratorio:cursos": "node scripts/exploratorio-VerCursosReporte.mjs",
+    "exploratorio:progreso": "node scripts/exploratorio-MiProgresoReporte.mjs"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Suite de automatización QA con Playwright sobre Academia sin Humo — E2E, API y reportes exploratorios.",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.0.0"

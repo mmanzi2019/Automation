@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploratorio — Inicio de sesión</title>
+  <style>
+    :root { --bg:#0f1419; --card:#1a2332; --text:#e7ecf3; --muted:#9aa8bc; --accent:#5b9cff;
+      --high:#ff6b6b; --media:#ffb347; --ok:#6bcb77; --border:#2a3548; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Segoe UI",system-ui,sans-serif; background:linear-gradient(180deg,#0b1020,var(--bg)); color:var(--text); line-height:1.5; }
+    .container { max-width:1100px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+    header.hero { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-bottom:2rem; }
+    h1 { margin:0 0 .5rem; }
+    .subtitle { color:var(--muted); margin:.25rem 0; }
+    .summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .stat { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1rem; }
+    .stat strong { display:block; font-size:2rem; color:var(--accent); }
+    .stat span { color:var(--muted); font-size:.85rem; }
+    .scope { background:rgba(91,156,255,.08); border-left:4px solid var(--accent); padding:1rem 1.25rem; border-radius:0 10px 10px 0; margin-bottom:1.5rem; }
+    .bug-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; }
+    .badge { display:inline-block; padding:.2rem .55rem; border-radius:999px; font-size:.75rem; font-weight:700; margin-right:.35rem; text-transform:uppercase; }
+    .badge.alta { background:rgba(255,107,107,.18); color:var(--high); }
+    .badge.media { background:rgba(255,179,71,.18); color:var(--media); }
+    .badge.req { background:rgba(91,156,255,.15); color:var(--accent); }
+    .meta { color:var(--muted); font-size:.9rem; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+    @media (max-width:800px) { .grid-2 { grid-template-columns:1fr; } }
+    pre { background:#101826; border:1px solid var(--border); border-radius:8px; padding:.75rem; white-space:pre-wrap; font-size:.85rem; }
+    .actual { color:var(--high); font-weight:600; }
+    img { width:100%; border-radius:10px; border:1px solid var(--border); }
+    .log { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; font-size:.85rem; max-height:320px; overflow:auto; }
+    .log li { margin:.35rem 0; color:var(--muted); font-family:monospace; }
+    .pass { color:var(--ok); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>Exploratorio-IniciarSesionReporte</h1>
+      <p class="subtitle">Academia sin Humo · Login · 26/6/2026, 11:05:36</p>
+      <p class="subtitle">Referencia: REQ-L01 a REQ-L04 · Técnica: valores límite · Modo: navegador visible</p>
+    </header>
+    <div class="summary">
+      <div class="stat"><strong>2</strong><span>Bugs</span></div>
+      <div class="stat"><strong>120s</strong><span>Duración</span></div>
+      <div class="stat"><strong>13</strong><span>Capturas</span></div>
+      <div class="stat"><strong class="pass">OK</strong><span>Registro + login</span></div>
+    </div>
+    <section class="scope">
+      <h3>Alcance</h3>
+      <ul>
+        <li>Inicio → <em>Empezar a practicar</em> → flujo login/registro</li>
+        <li>Login fallido: campos vacíos, credenciales inválidas, email inexistente, rate limiting (límite 5 intentos / bloqueo 30s)</li>
+        <li>Registro válido + login exitoso con cuenta creada</li>
+      </ul>
+      <p class="pass">Cuenta creada: <code>qa.login+1782482673728@ejemplo.com</code></p>
+    </section>
+    <h2>Hallazgos</h2>
+    
+      <article class="bug-card" id="bug-1">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-L03</span>
+          <h2>Bug 1: Bloqueo activado en el intento 4 (esperado: después del 5º)</h2>
+          <p class="meta">Rate limiting · 55.6s</p>
+        </header>
+        <section>
+          <h3>Pasos para reproducir</h3>
+          <ol><li>Usar cuenta demo ana.garcia@ejemplo.com</li><li>Enviar contraseñas incorrectas consecutivamente</li><li>Observar en qué intento aparece el bloqueo</li></ol>
+        </section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos de prueba (valores límite)</h3>
+            <pre>Intentos hasta bloqueo: 4
+Límite spec: 5 intentos</pre>
+            <h3>Esperado</h3>
+            <p>Bloqueo tras exactamente 5 intentos fallidos consecutivos.</p>
+            <h3>Actual</h3>
+            <p class="actual">Bloqueo detectado en intento #4. Error: "Demasiados intentos fallidos. Cuenta bloqueada por 30 segundos."</p>
+          </div>
+          <div>
+            <h3>Evidencia</h3>
+            <a href="evidencia/08-rate-limit-antes-de-5.png" target="_blank">
+              <img src="evidencia/08-rate-limit-antes-de-5.png" alt="Bloqueo activado en el intento 4 (esperado: después del 5º)" loading="lazy" />
+            </a>
+          </div>
+        </section>
+      </article>
+
+      <article class="bug-card" id="bug-2">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-L03</span>
+          <h2>Bug 2: Botón se habilita mientras el bloqueo sigue activo</h2>
+          <p class="meta">Rate limiting · 55.7s</p>
+        </header>
+        <section>
+          <h3>Pasos para reproducir</h3>
+          <ol><li>Provocar bloqueo por intentos fallidos</li><li>Observar login-lockout y estado del botón en intentos siguientes</li></ol>
+        </section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos de prueba (valores límite)</h3>
+            <pre>Intentos con lockout activo y botón habilitado: 5</pre>
+            <h3>Esperado</h3>
+            <p>login-submit deshabilitado durante todo el periodo de bloqueo (30s).</p>
+            <h3>Actual</h3>
+            <p class="actual">En intento #5 lockout visible pero botón="Iniciar sesión" habilitado.</p>
+          </div>
+          <div>
+            <h3>Evidencia</h3>
+            <a href="evidencia/09-boton-habilitado-durante-lockout.png" target="_blank">
+              <img src="evidencia/09-boton-habilitado-durante-lockout.png" alt="Botón se habilita mientras el bloqueo sigue activo" loading="lazy" />
+            </a>
+          </div>
+        </section>
+      </article>
+    <h2>Log de sesión exploratoria</h2>
+    <ul class="log"><li>[0.0s] Lanzando Chromium en modo visible (headless: false)...</li><li>[2.2s] Navegando a la home...</li><li>[4.8s] Click en "Empezar a practicar"...</li><li>[6.5s] Navegando a Iniciar sesión...</li><li>[8.1s] FASE A — Login no exitoso</li><li>[9.7s] Campos vacíos → error:true welcome:false</li><li>[13.8s] Email no registrado → error: Email o contraseña incorrectos</li><li>[17.9s] Password incorrecta (1er intento) → Email o contraseña incorrectos</li><li>[19.2s] FASE A.2 — Rate limiting (valores límite: intentos 1 a 5, contexto limpio)</li><li>[22.9s] Intento fallido #1: lockout=false disabled=false btn="Iniciar sesión"</li><li>[25.0s] Intento fallido #2: lockout=false disabled=false btn="Iniciar sesión"</li><li>[27.2s] Intento fallido #3: lockout=false disabled=false btn="Iniciar sesión"</li><li>[29.3s] Intento fallido #4: lockout=true disabled=true btn="Bloqueado"</li><li>[54.8s] Intento fallido #5: lockout=true disabled=false btn="Iniciar sesión"</li><li>[55.6s] BUG: Bloqueo activado en el intento 4 (esperado: después del 5º)</li><li>[55.7s] BUG: Botón se habilita mientras el bloqueo sigue activo</li><li>[57.4s] FASE B — Registro con datos correctos</li><li>[61.3s] Registro válido → éxito: true</li><li>[61.4s] FASE C — Login exitoso con cuenta creada</li><li>[64.1s] Login cuenta nueva → welcome: true</li><li>[64.2s] Bienvenida: ¡Hola, QA!</li><li>[64.2s] Control — Login exitoso cuenta demo</li><li>[68.3s] Login demo OK</li><li>[69.5s] Esperando 51s para completar sesión de 2 minutos...</li></ul>
+  </div>
+</body>
+</html>

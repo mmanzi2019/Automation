@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "id": "email-sin-dominio",
+      "severity": "Alta",
+      "req": "REQ-R03",
+      "title": "Registro acepta email 'usuario@' sin dominio",
+      "steps": [
+        "Ingresar email con @ pero sin dominio",
+        "Enviar"
+      ],
+      "data": "Email: usuario@",
+      "expected": "Debe rechazarse: falta dominio con punto (REQ-R03).",
+      "actual": "El registro fue aceptado (mensaje de éxito visible).",
+      "evidence": "evidencia/01-email-sin-dominio.png",
+      "category": "Email",
+      "timestamp": "35.4s"
+    },
+    {
+      "id": "email-sin-punto-dominio",
+      "severity": "Alta",
+      "req": "REQ-R03",
+      "title": "Registro acepta email sin punto en el dominio",
+      "steps": [
+        "Ingresar email user@dominio (sin TLD)",
+        "Enviar"
+      ],
+      "data": "Email: user@dominio",
+      "expected": "Debe rechazarse: dominio debe contener punto.",
+      "actual": "El registro fue aceptado (mensaje de éxito visible).",
+      "evidence": "evidencia/02-email-sin-punto-dominio.png",
+      "category": "Email",
+      "timestamp": "41.2s"
+    },
+    {
+      "id": "password-65-chars",
+      "severity": "Alta",
+      "req": "REQ-R04",
+      "title": "Registro acepta contraseña de 65 caracteres",
+      "steps": [
+        "Ingresar contraseña de 65 caracteres",
+        "Enviar"
+      ],
+      "data": "Password: \"a\" x 65",
+      "expected": "Debe rechazarse: máximo 64 caracteres (REQ-R04).",
+      "actual": "El registro fue aceptado (mensaje de éxito visible).",
+      "evidence": "evidencia/03-password-65-chars.png",
+      "category": "Contraseña",
+      "timestamp": "51.7s"
+    },
+    {
+      "id": "formulario-no-limpia",
+      "severity": "Media",
+      "req": "REQ-R06",
+      "title": "Tras registro exitoso el formulario conserva datos",
+      "steps": [
+        "Registrar cuenta con datos válidos",
+        "Observar campos del formulario tras el éxito"
+      ],
+      "data": "{\n  \"name\": \"Mayra Exploratoria QA\",\n  \"email\": \"mayra.exploratorio+1782481007640@ejemplo.com\",\n  \"password\": \"Segura2026!\",\n  \"age\": \"28\"\n}",
+      "expected": "Todos los campos deben quedar vacíos tras el éxito.",
+      "actual": "Valores residuales: {\"name\":\"Mayra Exploratoria QA\",\"email\":\"mayra.exploratorio+1782481007640@ejemplo.com\",\"password\":\"Segura2026!\",\"age\":\"28\"}",
+      "evidence": "evidencia/04-registro-valido-exito.png",
+      "category": "Post-registro",
+      "timestamp": "66.0s"
+    },
+    {
+      "id": "email-doble-arroba",
+      "severity": "Media",
+      "req": "REQ-R03",
+      "title": "Registro acepta email con doble @",
+      "steps": [
+        "Ingresar email user@@dominio.com",
+        "Enviar"
+      ],
+      "data": "Email: user@@dominio.com",
+      "expected": "Debe rechazarse: formato inválido.",
+      "actual": "El registro fue aceptado (mensaje de éxito visible).",
+      "evidence": "evidencia/06-email-doble-arroba.png",
+      "category": "Email",
+      "timestamp": "102.0s"
+    }
+  ],
+  "validAccount": {
+    "name": "Mayra Exploratoria QA",
+    "email": "mayra.exploratorio+1782481007640@ejemplo.com",
+    "password": "Segura2026!",
+    "age": "28"
+  },
+  "durationSeconds": "120.0"
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploratorio-MiProgresoReporte</title>
+  <style>
+    :root{--bg:#0f1419;--card:#1a2332;--text:#e7ecf3;--muted:#9aa8bc;--accent:#5b9cff;--high:#ff6b6b;--media:#ffb347;--border:#2a3548;--ok:#6bcb77}
+    body{margin:0;font-family:system-ui,sans-serif;background:linear-gradient(180deg,#0b1020,var(--bg));color:var(--text);line-height:1.5}
+    .container{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 4rem}
+    header.hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:1.5rem 0}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+    .stat strong{display:block;font-size:2rem;color:var(--accent)}
+    .stat span{color:var(--muted);font-size:.85rem}
+    .scope{background:rgba(91,156,255,.08);border-left:4px solid var(--accent);padding:1rem 1.25rem;border-radius:0 10px 10px 0;margin-bottom:1.5rem}
+    .bug-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+    .badge{display:inline-block;padding:.2rem .55rem;border-radius:999px;font-size:.75rem;font-weight:700;margin-right:.35rem;text-transform:uppercase}
+    .badge.alta{background:rgba(255,107,107,.18);color:var(--high)}
+    .badge.media{background:rgba(255,179,71,.18);color:var(--media)}
+    .badge.req{background:rgba(91,156,255,.15);color:var(--accent)}
+    .meta{color:var(--muted);font-size:.9rem}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    @media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+    pre{background:#101826;border:1px solid var(--border);border-radius:8px;padding:.75rem;white-space:pre-wrap;font-size:.85rem}
+    .actual{color:var(--high);font-weight:600}
+    img{width:100%;border-radius:10px;border:1px solid var(--border)}
+    .log{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;font-size:.85rem;max-height:300px;overflow:auto}
+    .log li{margin:.3rem 0;color:var(--muted);font-family:monospace}
+    .pass{color:var(--ok)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>Exploratorio-MiProgresoReporte</h1>
+      <p class="subtitle">Progreso del estudiante · REQ-P01 a REQ-P05 · 26/6/2026, 11:52:38</p>
+      <p class="subtitle">Modo visible · Valores límite en transiciones de estado</p>
+    </header>
+    <div class="summary">
+      <div class="stat"><strong>4</strong><span>Bugs</span></div>
+      <div class="stat"><strong>120s</strong><span>Duración</span></div>
+      <div class="stat"><strong>14</strong><span>Capturas</span></div>
+      <div class="stat"><strong class="pass">OK</strong><span>Login + progreso</span></div>
+    </div>
+    <section class="scope">
+      <h3>Alcance</h3>
+      <ul>
+        <li>Empezar a practicar → registro → login → Mi progreso → Catálogo</li>
+        <li>Transiciones válidas e inválidas (Inscrito, En progreso, Completado, Certificado, Abandonado)</li>
+        <li>Valores límite: transiciones terminales (Abandonado, Certificado), certificado duplicado</li>
+      </ul>
+      <p class="pass">Cuenta: <code>qa.progreso+1782485445017@ejemplo.com</code></p>
+    </section>
+    <h2>Hallazgos</h2>
+    
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-P03</span>
+          <h2>Bug 1: Estado terminal Abandonado permite Retomar → En progreso</h2>
+          <p class="meta">Transiciones · 22.2s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Comenzar curso</li><li>Abandonar</li><li>Clic en Retomar</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: transición desde Abandonado (estado terminal)</pre>
+            <h3>Esperado</h3><p>Abandonado sin transiciones. Retomar rechazado.</p>
+            <h3>Actual</h3><p class="actual">Estado tras Retomar: En progreso</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/09-abandonado-retomar-ui.png" target="_blank"><img src="evidencia/09-abandonado-retomar-ui.png" alt="Estado terminal Abandonado permite Retomar → En progreso" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-P03</span>
+          <h2>Bug 2: API acepta retomar curso en estado Abandonado</h2>
+          <p class="meta">API / Transiciones · 23.9s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Abandonar vía API</li><li>POST action=retomar</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: Abandonado → en-progreso vía API</pre>
+            <h3>Esperado</h3><p>HTTP 422 transición inválida.</p>
+            <h3>Actual</h3><p class="actual">{"courseId":"fundamentos","previousStatus":"abandonado","currentStatus":"en-progreso","progress":10,"certificates":0,"message":"Transición exitosa: abandonado → en-progreso"}</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/10-abandonado-retomar-api.png" target="_blank"><img src="evidencia/10-abandonado-retomar-api.png" alt="API acepta retomar curso en estado Abandonado" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-P04</span>
+          <h2>Bug 3: Múltiples clics en Certificar generan certificados duplicados</h2>
+          <p class="meta">Certificación · 27.9s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Completar flujo hasta Certificado</li><li>POST /api/progress action=certificar por segunda vez</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: 2ª certificación
+certificates=2</pre>
+            <h3>Esperado</h3><p>Un solo certificado por curso (certificates=1).</p>
+            <h3>Actual</h3><p class="actual">HTTP 200, certificates=2, mensaje: Transición exitosa: certificado → certificado</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/12-certificados-duplicados.png" target="_blank"><img src="evidencia/12-certificados-duplicados.png" alt="Múltiples clics en Certificar generan certificados duplicados" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-P03</span>
+          <h2>Bug 4: Estado terminal Certificado permite volver a En progreso</h2>
+          <p class="meta">Transiciones · 29.6s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Llevar curso a Certificado</li><li>POST /api/progress action=comenzar</li><li>Revisar Mi progreso</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: transición desde estado final Certificado</pre>
+            <h3>Esperado</h3><p>Rechazado: Certificado no tiene transiciones permitidas.</p>
+            <h3>Actual</h3><p class="actual">{"courseId":"fundamentos","previousStatus":"certificado","currentStatus":"en-progreso","progress":100,"certificates":2,"message":"Transición exitosa: certificado → en-progreso"}</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/13-certificado-a-en-progreso.png" target="_blank"><img src="evidencia/13-certificado-a-en-progreso.png" alt="Estado terminal Certificado permite volver a En progreso" /></a></div>
+        </section>
+      </article>
+    <h2>Log de sesión</h2>
+    <ul class="log"><li>[0.0s] Lanzando Chromium visible (headless: false, slowMo: 250)...</li><li>[2.1s] Home → Empezar a practicar</li><li>[6.0s] FASE A — Registro e inicio de sesión</li><li>[11.8s] Login exitoso con qa.progreso+1782485445017@ejemplo.com</li><li>[12.0s] FASE B — Mi progreso (sin cursos)</li><li>[13.3s] Estado vacío visible: true</li><li>[13.5s] FASE C — Inscripción y catálogo</li><li>[16.6s] Estado inicial: Inscrito</li><li>[16.7s] FASE D — Transición inválida Inscrito → Completado (control)</li><li>[18.0s] Tras Completar desde Inscrito: status=Inscrito notif=Transición inválida: inscrito → completado</li><li>[18.1s] FASE E — Comenzar curso (Inscrito → En progreso)</li><li>[19.2s] Tras Comenzar: En progreso</li><li>[19.4s] FASE F — Valor límite: Abandonado → En progreso (UI Retomar)</li><li>[20.7s] Tras Abandonar: Abandonado</li><li>[22.1s] Tras Retomar: En progreso</li><li>[22.2s] BUG: Estado terminal Abandonado permite Retomar → En progreso</li><li>[22.2s] FASE F.2 — API retomar desde Abandonado</li><li>[22.6s] API retomar: 200</li><li>[23.9s] BUG: API acepta retomar curso en estado Abandonado</li><li>[23.9s] FASE G — Flujo válido: Completar → Certificar</li><li>[26.2s] Tras Completar: Completado</li><li>[27.4s] Tras Certificar: Certificado</li><li>[27.5s] FASE H — Valor límite REQ-P04: certificar duplicado</li><li>[27.8s] 2º certificar API: 200 certificates=2</li><li>[27.9s] BUG: Múltiples clics en Certificar generan certificados duplicados</li><li>[27.9s] FASE I — Valor límite: Certificado → En progreso (API comenzar)</li><li>[28.1s] comenzar desde Certificado: 200</li><li>[29.6s] BUG: Estado terminal Certificado permite volver a En progreso</li><li>[29.6s] FASE J — Catálogo tras completar (REQ-P05)</li><li>[31.0s] Playwright desde cero: locked=false btn=Inscribirse</li><li>[31.2s] Completando ventana de 2 min (89s)...</li></ul>
+  </div>
+</body>
+</html>

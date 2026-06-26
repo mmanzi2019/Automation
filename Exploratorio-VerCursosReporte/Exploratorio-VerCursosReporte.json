@@ -1,0 +1,110 @@
+{
+  "findings": [
+    {
+      "id": "cupos-no-disminuyen",
+      "severity": "Alta",
+      "req": "REQ-C04",
+      "category": "Cupos",
+      "title": "Los cupos disponibles no disminuyen tras inscripción exitosa",
+      "steps": [
+        "Anotar cupos de Fundamentos",
+        "Inscribirse",
+        "Comparar cupos"
+      ],
+      "data": "Valor límite: antes=6, después=6",
+      "expected": "Cupos después = 5",
+      "actual": "Cupos permanecen en 6 (6 disponibles)",
+      "evidence": "evidencia/07-cupos-no-disminuyen.png",
+      "timestamp": "27.3s"
+    },
+    {
+      "id": "diseno-desbloqueado-solo-inscrito",
+      "severity": "Alta",
+      "req": "REQ-C03",
+      "category": "Prerequisitos",
+      "title": "Diseño de casos se desbloquea al estar inscrito (no completado) en Fundamentos",
+      "steps": [
+        "Inscribirse en Fundamentos (sin completarlo)",
+        "Revisar curso Diseño de casos de prueba",
+        "Comparar con Playwright desde cero (mismo prerequisito)"
+      ],
+      "data": "Valor límite: prerequisito INSCRITO pero no COMPLETADO\nplaywright-cero locked=true\ndiseno-casos locked=false",
+      "expected": "Ambos cursos siguen bloqueados hasta COMPLETAR Fundamentos.",
+      "actual": "Diseño: botón \"Inscribirse\" habilitado. Playwright-cero: locked=true.",
+      "evidence": "evidencia/08-diseno-desbloqueado-solo-inscrito.png",
+      "timestamp": "27.6s"
+    },
+    {
+      "id": "inscripcion-sin-prereq-completado",
+      "severity": "Alta",
+      "req": "REQ-C02",
+      "category": "Tabla de decisión",
+      "title": "Permite inscribirse en curso con prerequisito no completado",
+      "steps": [
+        "Inscribir Fundamentos sin completar",
+        "Inscribir Diseño de casos"
+      ],
+      "data": "Prerequisito completado: No\nCupo disponible: Sí",
+      "expected": "Rechazado (prerequisito pendiente).",
+      "actual": "Inscripción exitosa: \"Ya inscrito\"",
+      "evidence": "evidencia/09-inscripcion-sin-prereq-completado.png",
+      "timestamp": "29.1s"
+    },
+    {
+      "id": "api-enroll-sin-prereq",
+      "severity": "Alta",
+      "req": "REQ-C06",
+      "category": "API",
+      "title": "API permite inscribir curso con prerequisito no completado",
+      "steps": [
+        "POST /api/enroll con courseId=playwright-cero",
+        "Sin haber completado Fundamentos"
+      ],
+      "data": "Body: { \"courseId\": \"playwright-cero\" }",
+      "expected": "403 prerequisito no completado.",
+      "actual": "HTTP 200: {\"courseId\":\"playwright-cero\",\"status\":\"inscrito\",\"displayStatus\":\"inscrito\",\"progress\":0,\"certificates\":0,\"enrolledAt\":1782484190625,\"message\":\"Inscripción exitosa a \\\"Playwright desde cero\\\"\",\"spotsLeft\":3}",
+      "evidence": "evidencia/12-api-enroll-sin-prereq.png",
+      "timestamp": "30.0s"
+    }
+  ],
+  "account": {
+    "name": "QA Ver Cursos",
+    "email": "qa.vercursos+1782484175628@ejemplo.com",
+    "password": "Segura2026!",
+    "age": "25"
+  },
+  "sessionLog": [
+    "[0.0s] Lanzando Chromium visible (headless: false, slowMo: 250)...",
+    "[3.4s] Home → Empezar a practicar",
+    "[15.0s] FASE A — Crear cuenta e iniciar sesión",
+    "[21.8s] Login exitoso: ¡Hola, QA!",
+    "[21.8s] FASE B — Catálogo de cursos",
+    "[23.9s] FASE B.2 — Verificar cursos bloqueados (estado inicial, valor límite: 0 prerequisitos completados)",
+    "[23.9s] fundamentos: enroll=\"Inscribirse\" locked=false spots=6 disponibles",
+    "[23.9s] playwright-cero: enroll=\"Bloqueado\" locked=true spots=3 disponibles",
+    "[23.9s] diseno-casos: enroll=\"Bloqueado\" locked=true spots=5 disponibles",
+    "[23.9s] api-testing: enroll=\"Bloqueado\" locked=true spots=Sin cupos",
+    "[23.9s] ci-cd-qa: enroll=\"Bloqueado\" locked=true spots=7 disponibles",
+    "[24.0s] liderazgo-qa: enroll=\"Bloqueado\" locked=true spots=1 disponibles",
+    "[24.0s] playwright-cazador-bugs: enroll=\"Bloqueado\" locked=true spots=20 disponibles",
+    "[24.0s] ia-para-qa: enroll=\"Bloqueado\" locked=true spots=20 disponibles",
+    "[24.0s] api-cazador-bugs: enroll=\"Bloqueado\" locked=true spots=20 disponibles",
+    "[24.2s] FASE C — Inscripción en Fundamentos (único disponible inicialmente)",
+    "[25.7s] Fundamentos tras inscribir: Ya inscrito, cupos: 6 disponibles",
+    "[27.3s] BUG: Los cupos disponibles no disminuyen tras inscripción exitosa",
+    "[27.3s] FASE C.2 — Valor límite REQ-C03: inscrito ≠ completado",
+    "[27.3s] Tras inscribir fundamentos → playwright-cero: locked=true btn=\"Bloqueado\"",
+    "[27.4s] Tras inscribir fundamentos → diseno-casos: locked=false btn=\"Inscribirse\"",
+    "[27.6s] BUG: Diseño de casos se desbloquea al estar inscrito (no completado) en Fundamentos",
+    "[29.1s] BUG: Permite inscribirse en curso con prerequisito no completado",
+    "[29.5s] FASE D — Valores límite de cupos (0 y 1)",
+    "[29.6s] api-testing (0 cupos): Sin cupos",
+    "[29.6s] liderazgo-qa (1 cupo): 1 disponibles",
+    "[29.6s] FASE E — API enroll (REQ-C06, valor límite: prerequisito pendiente)",
+    "[29.7s] API enroll playwright-cero: 200 {\"courseId\":\"playwright-cero\",\"status\":\"inscrito\",\"displayStatus\":\"inscrito\",\"pr",
+    "[30.0s] BUG: API permite inscribir curso con prerequisito no completado",
+    "[30.2s] FASE F — Verificación final de cursos bloqueados",
+    "[31.7s] Completando ventana de 2 min (88s restantes)..."
+  ],
+  "durationSeconds": "120.1"
+}

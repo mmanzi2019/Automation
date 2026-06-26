@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploratorio-VerCursosReporte</title>
+  <style>
+    :root{--bg:#0f1419;--card:#1a2332;--text:#e7ecf3;--muted:#9aa8bc;--accent:#5b9cff;--high:#ff6b6b;--media:#ffb347;--border:#2a3548;--ok:#6bcb77}
+    body{margin:0;font-family:system-ui,sans-serif;background:linear-gradient(180deg,#0b1020,var(--bg));color:var(--text);line-height:1.5}
+    .container{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 4rem}
+    header.hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:1.5rem 0}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+    .stat strong{display:block;font-size:2rem;color:var(--accent)}
+    .stat span{color:var(--muted);font-size:.85rem}
+    .scope{background:rgba(91,156,255,.08);border-left:4px solid var(--accent);padding:1rem 1.25rem;border-radius:0 10px 10px 0;margin-bottom:1.5rem}
+    .bug-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+    .badge{display:inline-block;padding:.2rem .55rem;border-radius:999px;font-size:.75rem;font-weight:700;margin-right:.35rem;text-transform:uppercase}
+    .badge.alta{background:rgba(255,107,107,.18);color:var(--high)}
+    .badge.media{background:rgba(255,179,71,.18);color:var(--media)}
+    .badge.req{background:rgba(91,156,255,.15);color:var(--accent)}
+    .meta{color:var(--muted);font-size:.9rem}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    @media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+    pre{background:#101826;border:1px solid var(--border);border-radius:8px;padding:.75rem;white-space:pre-wrap;font-size:.85rem}
+    .actual{color:var(--high);font-weight:600}
+    img{width:100%;border-radius:10px;border:1px solid var(--border)}
+    .log{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;font-size:.85rem;max-height:300px;overflow:auto}
+    .log li{margin:.3rem 0;color:var(--muted);font-family:monospace}
+    .pass{color:var(--ok)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>Exploratorio-VerCursosReporte</h1>
+      <p class="subtitle">Catálogo e inscripción · REQ-C01 a REQ-C06 · 26/6/2026, 11:31:20</p>
+      <p class="subtitle">Modo visible · Valores límite (cupos 0/1, prerequisitos, desbloqueo)</p>
+    </header>
+    <div class="summary">
+      <div class="stat"><strong>4</strong><span>Bugs</span></div>
+      <div class="stat"><strong>120s</strong><span>Duración</span></div>
+      <div class="stat"><strong>14</strong><span>Capturas</span></div>
+      <div class="stat"><strong class="pass">OK</strong><span>Login + catálogo</span></div>
+    </div>
+    <section class="scope">
+      <h3>Alcance</h3>
+      <ul>
+        <li>Empezar a practicar → registro → login → catálogo /cursos</li>
+        <li>Inscripción en cursos disponibles y verificación de cursos bloqueados (REQ-C03)</li>
+        <li>Valores límite: cupos (0 = Sin cupos, 1 = último cupo), prerequisitos pendientes vs completados</li>
+      </ul>
+      <p class="pass">Cuenta: <code>qa.vercursos+1782484175628@ejemplo.com</code></p>
+    </section>
+    <h2>Hallazgos</h2>
+    
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-C04</span>
+          <h2>Bug 1: Los cupos disponibles no disminuyen tras inscripción exitosa</h2>
+          <p class="meta">Cupos · 27.3s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Anotar cupos de Fundamentos</li><li>Inscribirse</li><li>Comparar cupos</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: antes=6, después=6</pre>
+            <h3>Esperado</h3><p>Cupos después = 5</p>
+            <h3>Actual</h3><p class="actual">Cupos permanecen en 6 (6 disponibles)</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/07-cupos-no-disminuyen.png" target="_blank"><img src="evidencia/07-cupos-no-disminuyen.png" alt="Los cupos disponibles no disminuyen tras inscripción exitosa" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-C03</span>
+          <h2>Bug 2: Diseño de casos se desbloquea al estar inscrito (no completado) en Fundamentos</h2>
+          <p class="meta">Prerequisitos · 27.6s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Inscribirse en Fundamentos (sin completarlo)</li><li>Revisar curso Diseño de casos de prueba</li><li>Comparar con Playwright desde cero (mismo prerequisito)</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Valor límite: prerequisito INSCRITO pero no COMPLETADO
+playwright-cero locked=true
+diseno-casos locked=false</pre>
+            <h3>Esperado</h3><p>Ambos cursos siguen bloqueados hasta COMPLETAR Fundamentos.</p>
+            <h3>Actual</h3><p class="actual">Diseño: botón "Inscribirse" habilitado. Playwright-cero: locked=true.</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/08-diseno-desbloqueado-solo-inscrito.png" target="_blank"><img src="evidencia/08-diseno-desbloqueado-solo-inscrito.png" alt="Diseño de casos se desbloquea al estar inscrito (no completado) en Fundamentos" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-C02</span>
+          <h2>Bug 3: Permite inscribirse en curso con prerequisito no completado</h2>
+          <p class="meta">Tabla de decisión · 29.1s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>Inscribir Fundamentos sin completar</li><li>Inscribir Diseño de casos</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Prerequisito completado: No
+Cupo disponible: Sí</pre>
+            <h3>Esperado</h3><p>Rechazado (prerequisito pendiente).</p>
+            <h3>Actual</h3><p class="actual">Inscripción exitosa: "Ya inscrito"</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/09-inscripcion-sin-prereq-completado.png" target="_blank"><img src="evidencia/09-inscripcion-sin-prereq-completado.png" alt="Permite inscribirse en curso con prerequisito no completado" /></a></div>
+        </section>
+      </article>
+
+      <article class="bug-card">
+        <header>
+          <span class="badge alta">Alta</span>
+          <span class="badge req">REQ-C06</span>
+          <h2>Bug 4: API permite inscribir curso con prerequisito no completado</h2>
+          <p class="meta">API · 30.0s</p>
+        </header>
+        <section><h3>Pasos</h3><ol><li>POST /api/enroll con courseId=playwright-cero</li><li>Sin haber completado Fundamentos</li></ol></section>
+        <section class="grid-2">
+          <div>
+            <h3>Datos / valor límite</h3><pre>Body: { "courseId": "playwright-cero" }</pre>
+            <h3>Esperado</h3><p>403 prerequisito no completado.</p>
+            <h3>Actual</h3><p class="actual">HTTP 200: {"courseId":"playwright-cero","status":"inscrito","displayStatus":"inscrito","progress":0,"certificates":0,"enrolledAt":1782484190625,"message":"Inscripción exitosa a \"Playwright desde cero\"","spotsLeft":3}</p>
+          </div>
+          <div><h3>Evidencia</h3><a href="evidencia/12-api-enroll-sin-prereq.png" target="_blank"><img src="evidencia/12-api-enroll-sin-prereq.png" alt="API permite inscribir curso con prerequisito no completado" /></a></div>
+        </section>
+      </article>
+    <h2>Log de sesión</h2>
+    <ul class="log"><li>[0.0s] Lanzando Chromium visible (headless: false, slowMo: 250)...</li><li>[3.4s] Home → Empezar a practicar</li><li>[15.0s] FASE A — Crear cuenta e iniciar sesión</li><li>[21.8s] Login exitoso: ¡Hola, QA!</li><li>[21.8s] FASE B — Catálogo de cursos</li><li>[23.9s] FASE B.2 — Verificar cursos bloqueados (estado inicial, valor límite: 0 prerequisitos completados)</li><li>[23.9s] fundamentos: enroll="Inscribirse" locked=false spots=6 disponibles</li><li>[23.9s] playwright-cero: enroll="Bloqueado" locked=true spots=3 disponibles</li><li>[23.9s] diseno-casos: enroll="Bloqueado" locked=true spots=5 disponibles</li><li>[23.9s] api-testing: enroll="Bloqueado" locked=true spots=Sin cupos</li><li>[23.9s] ci-cd-qa: enroll="Bloqueado" locked=true spots=7 disponibles</li><li>[24.0s] liderazgo-qa: enroll="Bloqueado" locked=true spots=1 disponibles</li><li>[24.0s] playwright-cazador-bugs: enroll="Bloqueado" locked=true spots=20 disponibles</li><li>[24.0s] ia-para-qa: enroll="Bloqueado" locked=true spots=20 disponibles</li><li>[24.0s] api-cazador-bugs: enroll="Bloqueado" locked=true spots=20 disponibles</li><li>[24.2s] FASE C — Inscripción en Fundamentos (único disponible inicialmente)</li><li>[25.7s] Fundamentos tras inscribir: Ya inscrito, cupos: 6 disponibles</li><li>[27.3s] BUG: Los cupos disponibles no disminuyen tras inscripción exitosa</li><li>[27.3s] FASE C.2 — Valor límite REQ-C03: inscrito ≠ completado</li><li>[27.3s] Tras inscribir fundamentos → playwright-cero: locked=true btn="Bloqueado"</li><li>[27.4s] Tras inscribir fundamentos → diseno-casos: locked=false btn="Inscribirse"</li><li>[27.6s] BUG: Diseño de casos se desbloquea al estar inscrito (no completado) en Fundamentos</li><li>[29.1s] BUG: Permite inscribirse en curso con prerequisito no completado</li><li>[29.5s] FASE D — Valores límite de cupos (0 y 1)</li><li>[29.6s] api-testing (0 cupos): Sin cupos</li><li>[29.6s] liderazgo-qa (1 cupo): 1 disponibles</li><li>[29.6s] FASE E — API enroll (REQ-C06, valor límite: prerequisito pendiente)</li><li>[29.7s] API enroll playwright-cero: 200 {"courseId":"playwright-cero","status":"inscrito","displayStatus":"inscrito","pr</li><li>[30.0s] BUG: API permite inscribir curso con prerequisito no completado</li><li>[30.2s] FASE F — Verificación final de cursos bloqueados</li><li>[31.7s] Completando ventana de 2 min (88s restantes)...</li></ul>
+  </div>
+</body>
+</html>

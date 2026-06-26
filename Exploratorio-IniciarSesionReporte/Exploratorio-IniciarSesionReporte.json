@@ -1,0 +1,70 @@
+{
+  "findings": [
+    {
+      "id": "rate-limit-antes-de-5",
+      "severity": "Alta",
+      "req": "REQ-L03",
+      "category": "Rate limiting",
+      "title": "Bloqueo activado en el intento 4 (esperado: después del 5º)",
+      "steps": [
+        "Usar cuenta demo ana.garcia@ejemplo.com",
+        "Enviar contraseñas incorrectas consecutivamente",
+        "Observar en qué intento aparece el bloqueo"
+      ],
+      "data": "Intentos hasta bloqueo: 4\nLímite spec: 5 intentos",
+      "expected": "Bloqueo tras exactamente 5 intentos fallidos consecutivos.",
+      "actual": "Bloqueo detectado en intento #4. Error: \"Demasiados intentos fallidos. Cuenta bloqueada por 30 segundos.\"",
+      "evidence": "evidencia/08-rate-limit-antes-de-5.png",
+      "timestamp": "55.6s"
+    },
+    {
+      "id": "boton-habilitado-durante-lockout",
+      "severity": "Alta",
+      "req": "REQ-L03",
+      "category": "Rate limiting",
+      "title": "Botón se habilita mientras el bloqueo sigue activo",
+      "steps": [
+        "Provocar bloqueo por intentos fallidos",
+        "Observar login-lockout y estado del botón en intentos siguientes"
+      ],
+      "data": "Intentos con lockout activo y botón habilitado: 5",
+      "expected": "login-submit deshabilitado durante todo el periodo de bloqueo (30s).",
+      "actual": "En intento #5 lockout visible pero botón=\"Iniciar sesión\" habilitado.",
+      "evidence": "evidencia/09-boton-habilitado-durante-lockout.png",
+      "timestamp": "55.7s"
+    }
+  ],
+  "validAccount": {
+    "name": "QA Login Exploratorio",
+    "email": "qa.login+1782482673728@ejemplo.com",
+    "password": "Segura2026!",
+    "age": "25"
+  },
+  "sessionLog": [
+    "[0.0s] Lanzando Chromium en modo visible (headless: false)...",
+    "[2.2s] Navegando a la home...",
+    "[4.8s] Click en \"Empezar a practicar\"...",
+    "[6.5s] Navegando a Iniciar sesión...",
+    "[8.1s] FASE A — Login no exitoso",
+    "[9.7s] Campos vacíos → error:true welcome:false",
+    "[13.8s] Email no registrado → error: Email o contraseña incorrectos",
+    "[17.9s] Password incorrecta (1er intento) → Email o contraseña incorrectos",
+    "[19.2s] FASE A.2 — Rate limiting (valores límite: intentos 1 a 5, contexto limpio)",
+    "[22.9s] Intento fallido #1: lockout=false disabled=false btn=\"Iniciar sesión\"",
+    "[25.0s] Intento fallido #2: lockout=false disabled=false btn=\"Iniciar sesión\"",
+    "[27.2s] Intento fallido #3: lockout=false disabled=false btn=\"Iniciar sesión\"",
+    "[29.3s] Intento fallido #4: lockout=true disabled=true btn=\"Bloqueado\"",
+    "[54.8s] Intento fallido #5: lockout=true disabled=false btn=\"Iniciar sesión\"",
+    "[55.6s] BUG: Bloqueo activado en el intento 4 (esperado: después del 5º)",
+    "[55.7s] BUG: Botón se habilita mientras el bloqueo sigue activo",
+    "[57.4s] FASE B — Registro con datos correctos",
+    "[61.3s] Registro válido → éxito: true",
+    "[61.4s] FASE C — Login exitoso con cuenta creada",
+    "[64.1s] Login cuenta nueva → welcome: true",
+    "[64.2s] Bienvenida: ¡Hola, QA!",
+    "[64.2s] Control — Login exitoso cuenta demo",
+    "[68.3s] Login demo OK",
+    "[69.5s] Esperando 51s para completar sesión de 2 minutos..."
+  ],
+  "durationSeconds": "120.0"
+}

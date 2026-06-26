@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Registro", () => {
+test.describe("Registro de un estudiante", () => {
   test("un alumno se registra con datos válidos", async ({ page }) => {
     await page.goto("/registro");
 
@@ -13,7 +13,7 @@ test.describe("Registro", () => {
     await expect(page.getByTestId("register-success")).toBeVisible();
   });
 
-  test("Bug 01: el registro acepta un password de 65 caracteres (bug: el máximo es 64)", async ({ page }) => {
+  test("Bug 01Registro: el registro acepta un password de 65 caracteres (bug: el máximo es 64)", async ({ page }) => {
     await page.goto("/registro");
   
     await page.getByTestId("register-name").fill("Test Tester");
@@ -29,7 +29,7 @@ test.describe("Registro", () => {
     await expect(page.getByTestId("register-success")).toBeVisible();
   });
 
-  test("Bug 02: el registro acepta el email 'x@' sin dominio (bug: falta validar el dominio)", async ({ page }) => {
+  test("Bug 02Registro: el registro acepta el email 'x@' sin dominio (bug: falta validar el dominio)", async ({ page }) => {
     await page.goto("/registro");
   
     await page.getByTestId("register-name").fill("Test Tester");
