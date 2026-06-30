@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Accesibilidad — Auditoría WCAG 2.2</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#0f1419;color:#e7ecf3;margin:0;padding:2rem;line-height:1.5}
+    .container{max-width:1100px;margin:0 auto}
+    header{background:#1a2332;border:1px solid #2a3548;border-radius:16px;padding:2rem;margin-bottom:2rem}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin:1.5rem 0}
+    .stat{background:#1a2332;border:1px solid #2a3548;border-radius:12px;padding:1rem}
+    .stat strong{display:block;font-size:1.8rem;color:#5b9cff}
+    .stat span{color:#9aa8bc;font-size:.85rem}
+    .severity-block{margin-bottom:2rem}
+    .issue{background:#1a2332;border:1px solid #2a3548;border-radius:12px;padding:1.25rem;margin:1rem 0}
+    .badge{display:inline-block;padding:.2rem .5rem;border-radius:999px;font-size:.75rem;font-weight:700;margin-right:.35rem}
+    .badge.fail{background:rgba(255,107,107,.2);color:#ff6b6b}
+    .badge.incomplete{background:rgba(255,179,71,.2);color:#ffb347}
+    .badge.pass{background:rgba(107,203,119,.2);color:#6bcb77}
+    .badge.impact{background:rgba(91,156,255,.15);color:#5b9cff}
+    .badge.count{background:rgba(155,89,182,.15);color:#c792ea}
+    code,pre{background:#101826;padding:.2rem .4rem;border-radius:4px;font-size:.85rem}
+    pre.snippet{padding:.5rem;overflow-x:auto;margin:.35rem 0;font-size:.8rem;max-height:80px}
+    .locations{list-style:none;padding:0;margin:.5rem 0}
+    .locations li{border-left:3px solid #2a3548;padding:.5rem .75rem;margin:.5rem 0;background:#101826;border-radius:0 8px 8px 0}
+    .locations code{display:block;margin-top:.25rem;word-break:break-all}
+    .locations a{color:#5b9cff;font-size:.85rem}
+    img{max-width:100%;border-radius:8px;border:1px solid #2a3548;margin-top:.5rem}
+    .final{font-size:1.25rem;font-weight:700;margin-top:1rem}
+    .final.fail{color:#ff6b6b}
+    .final.pass{color:#6bcb77}
+    .detail{color:#9aa8bc;font-size:.9rem}
+    h3{font-size:1rem;margin:1rem 0 .5rem;color:#5b9cff}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Auditoría de Accesibilidad — Accesibilidad</h1>
+      <p>URL base: https://academia-sin-humo.vercel.app · WCAG 2.2 nivel A y AA · axe-core + comprobaciones manuales automatizadas</p>
+      <p>Fecha: 30/6/2026, 12:12:43</p>
+      <p class="detail">Bugs agrupados por regla y causa raíz (p. ej. mismo par de colores en contraste).</p>
+    </header>
+    <div class="summary">
+      <div class="stat"><strong>14</strong><span>Bugs agrupados</span></div>
+      <div class="stat"><strong>89</strong><span>Ocurrencias totales</span></div>
+      <div class="stat"><strong>12</strong><span>Fallidos</span></div>
+      <div class="stat"><strong>1</strong><span>Incompletos</span></div>
+    </div>
+    <p class="final fail">
+      Estado final: Fallido
+    </p>
+    <p>Páginas auditadas: Inicio, Registro, Login, Documentación</p>
+    
+    <section class="severity-block">
+      <h2>Severidad: serio (12 bugs agrupados · 85 ocurrencias)</h2>
+      
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">9 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#f9fafb</code> · ratio detectado ~<strong>3.5:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Inicio, Registro, Login, Documentación</p>
+          <h3>Dónde se encuentra (9)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="header-logo"] &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/001-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>.hover\:bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10" data-testid="cuenta-acceso-link" aria-describedby="navhint-mi-cuenta" href="/cuenta/acceso"&gt;Mi cuenta&lt;/a&gt;</pre>
+        <a href="evidencia/002-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>.tracking-\[0\.35em\]</code>
+        <pre class="snippet">&lt;p class="mb-4 text-sm font-bold uppercase tracking-[0.35em] text-primary"&gt;Playground de práctica&lt;/p&gt;</pre>
+        <a href="evidencia/003-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.text-lg &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/023-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.hover\:bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10" data-testid="cuenta-acceso-link" aria-describedby="navhint-mi-cuenta" href="/cuenta/acceso"&gt;Mi cuenta&lt;/a&gt;</pre>
+        <a href="evidencia/025-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.text-lg &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/030-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.hover\:bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10" data-testid="cuenta-acceso-link" aria-describedby="navhint-mi-cuenta" href="/cuenta/acceso"&gt;Mi cuenta&lt;/a&gt;</pre>
+        <a href="evidencia/032-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>.text-lg &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/038-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>.hover\:bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10" data-testid="cuenta-acceso-link" aria-describedby="navhint-mi-cuenta" href="/cuenta/acceso"&gt;Mi cuenta&lt;/a&gt;</pre>
+        <a href="evidencia/040-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/001-inicio-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/001-inicio-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">14 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#ffffff</code> · ratio detectado ~<strong>3.65:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Inicio, Registro, Login</p>
+          <h3>Dónde se encuentra (14)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="path-aula"] &gt; .tracking-\[0\.2em\].uppercase.mb-1</code>
+        <pre class="snippet">&lt;p class="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-primary"&gt;Aula&lt;/p&gt;</pre>
+        <a href="evidencia/004-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="path-aula"] &gt; .inline-flex.gap-2.text-primary</code>
+        <pre class="snippet">&lt;span class="inline-flex items-center gap-2 text-sm font-semibold text-primary"&gt;Ver los cursos&lt;span class="transition-transform group-hover:translate-x-1"&gt;→&lt;/span&gt;&lt;/span&gt;</pre>
+        <a href="evidencia/005-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="path-laboratorio"] &gt; .inline-flex.gap-2.text-primary</code>
+        <pre class="snippet">&lt;span class="inline-flex items-center gap-2 text-sm font-semibold text-primary"&gt;Entrar al laboratorio&lt;span class="transition-transform group-hover:translate-x-1"&gt;→&lt;/span&gt;&lt;/span&gt;</pre>
+        <a href="evidencia/007-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-registro"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Partición de equivalencia&lt;/p&gt;</pre>
+        <a href="evidencia/009-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-login"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Valores límite&lt;/p&gt;</pre>
+        <a href="evidencia/011-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-cursos"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Tabla de decisión&lt;/p&gt;</pre>
+        <a href="evidencia/013-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-mi-progreso"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Transición de estados&lt;/p&gt;</pre>
+        <a href="evidencia/015-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-reserva"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Valores límite&lt;/p&gt;</pre>
+        <a href="evidencia/017-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-estudiantes"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Valores límite&lt;/p&gt;</pre>
+        <a href="evidencia/019-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-perfil"] &gt; .inline-block.border-primary\/30.text-\[11px\]</code>
+        <pre class="snippet">&lt;p class="mb-3 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Partición de equivalencia&lt;/p&gt;</pre>
+        <a href="evidencia/021-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.mb-2</code>
+        <pre class="snippet">&lt;span class="mb-2 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Partición de equivalencia&lt;/span&gt;</pre>
+        <a href="evidencia/027-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.hover\:underline.text-primary[href$="login"]</code>
+        <pre class="snippet">&lt;a class="font-medium text-primary hover:underline" href="/login"&gt;Inicia sesión&lt;/a&gt;</pre>
+        <a href="evidencia/028-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.inline-block</code>
+        <pre class="snippet">&lt;span class="mb-2 inline-block rounded-full border border-primary/30 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-primary"&gt;Valores límite&lt;/span&gt;</pre>
+        <a href="evidencia/034-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.hover\:underline.text-primary[href$="registro"]</code>
+        <pre class="snippet">&lt;a class="font-medium text-primary hover:underline" href="/registro"&gt;Regístrate&lt;/a&gt;</pre>
+        <a href="evidencia/036-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/004-inicio-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/004-inicio-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">3 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#de4f44</code> sobre fondo <code>#ffffff</code> · ratio detectado ~<strong>3.95:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Inicio, Documentación</p>
+          <h3>Dónde se encuentra (3)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>.tracking-\[0\.2em\].uppercase.text-danger</code>
+        <pre class="snippet">&lt;p class="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-danger"&gt;Laboratorio&lt;/p&gt;</pre>
+        <a href="evidencia/006-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>tr:nth-child(3) &gt; .text-danger.font-medium</code>
+        <pre class="snippet">&lt;td class="px-3 py-2 font-medium text-danger"&gt;Rechazado (prerequisito pendiente)&lt;/td&gt;</pre>
+        <a href="evidencia/056-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>tr:nth-child(4) &gt; .text-danger.font-medium</code>
+        <pre class="snippet">&lt;td class="px-3 py-2 font-medium text-danger"&gt;Rechazado&lt;/td&gt;</pre>
+        <a href="evidencia/057-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/006-inicio-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/006-inicio-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">7 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#de4f44</code> sobre fondo <code>#fcedec</code> · ratio detectado ~<strong>3.47:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Inicio</p>
+          <h3>Dónde se encuentra (7)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-registro"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;3&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/008-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-login"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;2&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/010-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-cursos"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;4&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/012-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-mi-progreso"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;2&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/014-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-reserva"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;2&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/016-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-estudiantes"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;2&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/018-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Inicio</strong>
+        <code>a[data-testid="scenario-perfil"] &gt; .justify-between.mb-4.flex &gt; .bg-danger\/10.text-danger.py-1</code>
+        <pre class="snippet">&lt;span class="rounded-full bg-danger/10 px-3 py-1 text-xs font-bold text-danger"&gt;2&lt;!-- --&gt; &lt;!-- --&gt;bugs&lt;/span&gt;</pre>
+        <a href="evidencia/020-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/008-inicio-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/008-inicio-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">4 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#f5f7f9</code> · ratio detectado ~<strong>3.4:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Inicio, Registro, Login, Documentación</p>
+          <h3>Dónde se encuentra (4)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>.text-foreground.font-semibold &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/022-inicio-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.font-semibold &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/029-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.font-semibold.text-foreground &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/037-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>p:nth-child(1) &gt; .text-primary</code>
+        <pre class="snippet">&lt;span class="text-primary"&gt;sin Humo&lt;/span&gt;</pre>
+        <a href="evidencia/081-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/022-inicio-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/022-inicio-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge incomplete">Incompleto</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">4 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          
+          <p class="detail">Verificación incompleta — requiere revisión manual.</p>
+          <p><strong>Páginas afectadas:</strong> Inicio, Registro, Login, Documentación</p>
+          <h3>Dónde se encuentra (4)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>.border-primary\/40</code>
+        <pre class="snippet">&lt;p class="mb-2 inline-block rounded-full border border-primary/40 bg-background/50 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary"&gt;Cursos con contenido real&lt;/p&gt;</pre>
+        
+      </li>
+      <li>
+        <strong>Registro</strong>
+        <code>.bg-gradient-to-r</code>
+        <pre class="snippet">&lt;button type="submit" class="w-full rounded-full bg-gradient-to-r from-primary to-primary/70 px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50" data-testid="register-submit"&gt;</pre>
+        
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.bg-gradient-to-r</code>
+        <pre class="snippet">&lt;button type="submit" class="w-full rounded-full bg-gradient-to-r from-primary to-primary/70 px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50" data-testid="login-submit"&gt;</pre>
+        
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>.bg-gradient-to-r</code>
+        <pre class="snippet">&lt;a class="rounded-full bg-gradient-to-r from-primary to-primary/70 px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:scale-105" href="/registro"&gt;Empezar a probar&lt;/a&gt;</pre>
+        
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">3 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#e0eff6</code> · ratio detectado ~<strong>3.1:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Registro, Login, Documentación</p>
+          <h3>Dónde se encuentra (3)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Registro</strong>
+        <code>.bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-2 text-sm font-medium transition-colors bg-primary/10 text-primary" data-testid="nav-registro" aria-describedby="navhint-registro" href="/registro"&gt;Crear cuenta de práctica&lt;/a&gt;</pre>
+        <a href="evidencia/024-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.bg-primary\/10</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-2 text-sm font-medium transition-colors bg-primary/10 text-primary" data-testid="nav-login" aria-describedby="navhint-login" href="/login"&gt;Entrar al laboratorio&lt;/a&gt;</pre>
+        <a href="evidencia/031-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>a[data-testid="nav-documentacion"]</code>
+        <pre class="snippet">&lt;a class="rounded-lg px-3 py-2 text-sm font-medium transition-colors bg-primary/10 text-primary" data-testid="nav-documentacion" aria-describedby="navhint-documentacion" href="/documentacion"&gt;Docs&lt;/a&gt;</pre>
+        <a href="evidencia/039-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/024-registro-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/024-registro-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">2 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#f4f0e2</code> · ratio detectado ~<strong>3.2:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Registro, Login</p>
+          <h3>Dónde se encuentra (2)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Registro</strong>
+        <code>.hover\:underline.text-primary[href$="registro"]</code>
+        <pre class="snippet">&lt;a class="font-medium text-primary hover:underline" href="/cuenta/registro"&gt;¿Quieres tu cuenta real de la Academia? Créala aquí →&lt;/a&gt;</pre>
+        <a href="evidencia/026-registro-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>.hover\:underline.text-primary[href$="acceso"]</code>
+        <pre class="snippet">&lt;a class="font-medium text-primary hover:underline" href="/cuenta/acceso"&gt;¿Tienes una cuenta real? Entra aquí →&lt;/a&gt;</pre>
+        <a href="evidencia/033-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/026-registro-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/026-registro-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">1 ocurrencia</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#f2f9fc</code> · ratio detectado ~<strong>3.43:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Login</p>
+          <h3>Dónde se encuentra (1)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Login</strong>
+        <code>.uppercase</code>
+        <pre class="snippet">&lt;p class="mb-2 text-xs font-bold uppercase tracking-wide text-primary"&gt;Cuenta de prueba&lt;/p&gt;</pre>
+        <a href="evidencia/035-login-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/035-login-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/035-login-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">36 ocurrencias</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#008ecc</code> sobre fondo <code>#e5f4fa</code> · ratio detectado ~<strong>3.24:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Documentación</p>
+          <h3>Dónde se encuentra (36)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R01&lt;/span&gt;</pre>
+        <a href="evidencia/041-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R02&lt;/span&gt;</pre>
+        <a href="evidencia/042-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R03&lt;/span&gt;</pre>
+        <a href="evidencia/043-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R04"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R04&lt;/span&gt;</pre>
+        <a href="evidencia/044-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R05"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R05&lt;/span&gt;</pre>
+        <a href="evidencia/045-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R06"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R06&lt;/span&gt;</pre>
+        <a href="evidencia/046-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-R07"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-R07&lt;/span&gt;</pre>
+        <a href="evidencia/047-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-L01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-L01&lt;/span&gt;</pre>
+        <a href="evidencia/048-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-L02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-L02&lt;/span&gt;</pre>
+        <a href="evidencia/049-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-L03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-L03&lt;/span&gt;</pre>
+        <a href="evidencia/050-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-L04"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-L04&lt;/span&gt;</pre>
+        <a href="evidencia/051-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C01&lt;/span&gt;</pre>
+        <a href="evidencia/052-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C02&lt;/span&gt;</pre>
+        <a href="evidencia/053-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C03&lt;/span&gt;</pre>
+        <a href="evidencia/058-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C04"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C04&lt;/span&gt;</pre>
+        <a href="evidencia/059-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C05"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C05&lt;/span&gt;</pre>
+        <a href="evidencia/060-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-C06"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-C06&lt;/span&gt;</pre>
+        <a href="evidencia/061-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-P01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-P01&lt;/span&gt;</pre>
+        <a href="evidencia/062-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-P02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-P02&lt;/span&gt;</pre>
+        <a href="evidencia/063-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-P03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-P03&lt;/span&gt;</pre>
+        <a href="evidencia/064-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-P04"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-P04&lt;/span&gt;</pre>
+        <a href="evidencia/065-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-P05"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-P05&lt;/span&gt;</pre>
+        <a href="evidencia/066-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-S01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-S01&lt;/span&gt;</pre>
+        <a href="evidencia/067-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-S02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-S02&lt;/span&gt;</pre>
+        <a href="evidencia/068-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-A01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-A01&lt;/span&gt;</pre>
+        <a href="evidencia/069-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-A02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-A02&lt;/span&gt;</pre>
+        <a href="evidencia/070-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-A03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-A03&lt;/span&gt;</pre>
+        <a href="evidencia/071-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-D01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-D01&lt;/span&gt;</pre>
+        <a href="evidencia/072-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-D02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-D02&lt;/span&gt;</pre>
+        <a href="evidencia/073-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-D03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-D03&lt;/span&gt;</pre>
+        <a href="evidencia/074-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-N01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-N01&lt;/span&gt;</pre>
+        <a href="evidencia/075-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-N02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-N02&lt;/span&gt;</pre>
+        <a href="evidencia/076-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-N03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-N03&lt;/span&gt;</pre>
+        <a href="evidencia/077-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-U01"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-U01&lt;/span&gt;</pre>
+        <a href="evidencia/078-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-U02"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-U02&lt;/span&gt;</pre>
+        <a href="evidencia/079-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>div[data-testid="req-REQ-U03"] &gt; .gap-3.flex &gt; .shrink-0.text-\[11px\].bg-primary\/10</code>
+        <pre class="snippet">&lt;span class="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold font-mono text-primary"&gt;REQ-U03&lt;/span&gt;</pre>
+        <a href="evidencia/080-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/041-documentaci-n-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/041-documentaci-n-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">1 ocurrencia</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#009962</code> sobre fondo <code>#ffffff</code> · ratio detectado ~<strong>3.66:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Documentación</p>
+          <h3>Dónde se encuentra (1)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Documentación</strong>
+        <code>.text-success</code>
+        <pre class="snippet">&lt;td class="px-3 py-2 font-medium text-success"&gt;Inscrito&lt;/td&gt;</pre>
+        <a href="evidencia/054-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/054-documentaci-n-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/054-documentaci-n-color-contrast.png</figcaption></figure>
+          
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">serio</span>
+            <span class="badge count">1 ocurrencia</span>
+            <strong>color-contrast</strong>
+          </header>
+          <p>Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds</p>
+          <p class="detail"><strong>Colores:</strong> texto <code>#c99500</code> sobre fondo <code>#ffffff</code> · ratio detectado ~<strong>2.69:1</strong> (requerido 4.5:1)</p>
+          
+          <p><strong>Páginas afectadas:</strong> Documentación</p>
+          <h3>Dónde se encuentra (1)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Documentación</strong>
+        <code>.text-warning</code>
+        <pre class="snippet">&lt;td class="px-3 py-2 font-medium text-warning"&gt;Lista de espera&lt;/td&gt;</pre>
+        <a href="evidencia/055-documentaci-n-color-contrast.png" target="_blank">Ver captura</a>
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Elements must meet minimum color contrast ratio thresholds</p>
+          <p><strong>WCAG:</strong> wcag2aa, wcag143</p>
+          <figure><img src="evidencia/055-documentaci-n-color-contrast.png" alt="Evidencia color-contrast" /><figcaption>Evidencia principal: evidencia/055-documentaci-n-color-contrast.png</figcaption></figure>
+          
+        </article>
+    </section>
+    <section class="severity-block">
+      <h2>Severidad: menor (2 bugs agrupados · 4 ocurrencias)</h2>
+      
+        <article class="issue">
+          <header>
+            <span class="badge pass">Aprobado</span>
+            <span class="badge impact">menor</span>
+            <span class="badge count">1 ocurrencia</span>
+            <strong>keyboard-navigation-audit</strong>
+          </header>
+          <p>Recorrido Tab registrado (25 pasos). Shift+Tab activo en: A.</p>
+          
+          
+          <p><strong>Páginas afectadas:</strong> Inicio</p>
+          <h3>Dónde se encuentra (1)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Inicio</strong>
+        <code>document</code>
+        
+        
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Verificar orden lógico de foco y visibilidad del indicador de foco.</p>
+          
+          
+          <p><strong>Orden Tab (Inicio):</strong> [data-testid="header-logo"] → [data-testid="nav-desafio"] → [data-testid="nav-registro"] → [data-testid="nav-login"] → [data-testid="nav-documentacion"] → [data-testid="nav-glosario"] → [data-testid="cuenta-acceso-link"] → [data-testid="theme-toggle"] → [data-testid="cursos-reales-cta-crear-cuenta"] → [data-testid="cta-start"] → [data-testid="cta-kit"] → [data-testid="path-aula"] → [data-testid="path-laboratorio"] → [data-testid="scenario-registro"] → [data-testid="scenario-login"] → [data-testid="scenario-cursos"] → [data-testid="scenario-mi-progreso"] → [data-testid="scenario-reserva"] → [data-testid="scenario-estudiantes"] → [data-testid="scenario-perfil"] → a → a → a → a → a</p>
+        </article>
+        <article class="issue">
+          <header>
+            <span class="badge fail">Fallido</span>
+            <span class="badge impact">menor</span>
+            <span class="badge count">3 ocurrencias</span>
+            <strong>keyboard-navigation-audit</strong>
+          </header>
+          <p>Recorrido Tab registrado (25 pasos). Shift+Tab activo en: BODY.</p>
+          
+          
+          <p><strong>Páginas afectadas:</strong> Registro, Login, Documentación</p>
+          <h3>Dónde se encuentra (3)</h3>
+          <ul class="locations">
+    
+      <li>
+        <strong>Registro</strong>
+        <code>document</code>
+        
+        
+      </li>
+      <li>
+        <strong>Login</strong>
+        <code>document</code>
+        
+        
+      </li>
+      <li>
+        <strong>Documentación</strong>
+        <code>document</code>
+        
+        
+      </li>
+  </ul>
+          <p><strong>Solución:</strong> Verificar orden lógico de foco y visibilidad del indicador de foco.</p>
+          
+          
+          <p><strong>Orden Tab (Registro):</strong> [data-testid="header-logo"] → [data-testid="nav-desafio"] → [data-testid="nav-registro"] → [data-testid="nav-login"] → [data-testid="nav-documentacion"] → [data-testid="nav-glosario"] → [data-testid="cuenta-acceso-link"] → [data-testid="theme-toggle"] → a → a → [data-testid="register-name"] → [data-testid="register-email"] → [data-testid="register-password"] → [data-testid="register-age"] → [data-testid="register-submit"] → a → a → a → a → a → body → [data-testid="header-logo"] → [data-testid="nav-desafio"] → [data-testid="nav-registro"] → [data-testid="nav-login"]</p>
+        </article>
+    </section>
+  </div>
+</body>
+</html>

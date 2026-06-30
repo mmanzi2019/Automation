@@ -10,14 +10,18 @@
     "exploratorio:registro": "node scripts/exploratorio-registroEstudiante.mjs",
     "exploratorio:login": "node scripts/exploratorio-IniciarSesionReporte.mjs",
     "exploratorio:cursos": "node scripts/exploratorio-VerCursosReporte.mjs",
-    "exploratorio:progreso": "node scripts/exploratorio-MiProgresoReporte.mjs"
+    "exploratorio:progreso": "node scripts/exploratorio-MiProgresoReporte.mjs",
+    "accesibilidad": "node scripts/auditoria-accesibilidad.mjs",
+    "accesibilidad:regroup": "node scripts/auditoria-accesibilidad.mjs --regroup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "Suite de automatización QA con Playwright sobre Academia sin Humo — E2E, API y reportes exploratorios.",
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.0.0"
+    "@types/node": "^26.0.0",
+    "axe-core": "^4.12.1"
   }
 }

@@ -2,10 +2,7 @@
 
 Suite de automatización QA con **Playwright** y **TypeScript** sobre [Academia sin Humo](https://academia-sin-humo.vercel.app/): plataforma de práctica con bugs intencionales para aprender testing basado en especificación.
 
-Proyecto de portafolio que combina:
-**pruebas automatizadas E2E/API**, 
-**pruebas exploratorias guiadas por requisitos**
-**reportes HTML con evidencia visual**.
+Proyecto de portafolio que combina **pruebas automatizadas E2E/API**, **pruebas exploratorias guiadas por requisitos**, **auditorías de accesibilidad WCAG 2.2** y **reportes HTML con evidencia visual**.
 
 ---
 
@@ -20,6 +17,7 @@ Diseñar, ejecutar y documentar pruebas comparando el comportamiento real de la 
 | Herramienta | Uso |
 |-------------|-----|
 | [Playwright](https://playwright.dev/) | E2E, API, capturas, modo visible |
+| [axe-core](https://github.com/dequelabs/axe-core) | Auditoría de accesibilidad WCAG 2.2 |
 | TypeScript | Specs tipados en `tests/` |
 | Node.js | Scripts exploratorios en `scripts/` |
 | Cursor | IDE de desarrollo |
@@ -37,12 +35,14 @@ mi-suite-automation/
 │   ├── api.spec.ts                 # API cursos, progreso e inscripción
 │   ├── upload.spec.ts              # Subida de CV (REQ-U01–U03)
 │   └── estudiantes.spec.ts         # Paginación (REQ-N01–N03)
-├── scripts/                        # Sesiones exploratorias (~2 min, modo visible)
+├── scripts/                        # Sesiones exploratorias y auditorías
 │   ├── exploratorio-registroEstudiante.mjs
 │   ├── exploratorio-IniciarSesionReporte.mjs
 │   ├── exploratorio-VerCursosReporte.mjs
-│   └── exploratorio-MiProgresoReporte.mjs
-├── Exploratorio-*/                 # Reportes HTML + evidencia (screenshots)
+│   ├── exploratorio-MiProgresoReporte.mjs
+│   └── auditoria-accesibilidad.mjs
+├── Exploratorio-*/                 # Reportes exploratorios HTML + evidencia
+├── Accesibilidad/                  # Reporte WCAG 2.2 (HTML, CSV, JSON, screenshots)
 └── playwright.config.ts
 ```
 
@@ -121,6 +121,86 @@ Cada ejecución crea/actualiza su carpeta `Exploratorio-*/` con:
 - `Exploratorio-*.html` — reporte visual para el portafolio
 - `Exploratorio-*.json` — hallazgos estructurados
 - `evidencia/*.png` — capturas de pantalla
+
+---
+
+## Auditoría de accesibilidad (WCAG 2.2)
+
+Auditoría automatizada con **Chromium + axe-core** sobre la `baseURL` configurada en `playwright.config.ts`, siguiendo reglas **WCAG 2.2 nivel A y AA**.
+
+### Ejecutar
+
+```bash
+npm run accesibilidad
+```
+
+O directamente:
+
+```bash
+node scripts/auditoria-accesibilidad.mjs
+```
+
+### Páginas auditadas
+
+- `/` (Inicio)
+- `/registro`
+- `/login`
+- `/documentacion`
+
+### Qué evalúa
+
+| Comprobación | Herramienta |
+|--------------|-------------|
+| Violaciones WCAG 2.2 A / AA | axe-core (`wcag2a`, `wcag2aa`, `wcag22aa`) |
+| Contraste de color | Regla `color-contrast` |
+| Jerarquía de encabezados (h1–h6) | Análisis manual automatizado |
+| Etiquetas accesibles en formularios | Análisis manual automatizado |
+| Navegación por teclado (Tab / Shift+Tab) | Recorrido de foco y detección de trampas |
+
+### Archivos de salida (`Accesibilidad/`)
+
+| Archivo | Descripción |
+|---------|-------------|
+| `Accesibilidad.html` | Reporte visual agrupado por severidad |
+| `Accesibilidad.csv` | Exportación separada por comas |
+| `Accesibilidad.json` | Hallazgos estructurados |
+| `evidencia/*.png` | Capturas por violación |
+
+Cada hallazgo incluye: **ID de regla**, **impacto**, **selector**, **descripción**, **evidencia**, **sugerencia de solución** y **estado** (Aprobado / Fallido / Incompleto).
+
+### Resultado de la última auditoría
+
+| Métrica | Valor |
+|---------|-------|
+| **Estado final** | **Fallido** |
+| Total hallazgos | 89 |
+| Fallidos | 84 |
+| Incompletos | 4 |
+| Críticos | 0 |
+| Serios | 85 |
+
+#### Hallazgo principal: contraste de color (`color-contrast`)
+
+| Campo | Detalle |
+|-------|---------|
+| **ID regla** | `color-contrast` |
+| **WCAG** | 1.4.3 Contraste (mínimo) — nivel AA |
+| **Impacto** | Serio |
+| **Problema** | Color primario `#008ecc` sobre fondo claro con ratio ~**3.5:1** (requiere **4.5:1** en texto normal) |
+| **Elementos afectados** | Logo “sin Humo”, enlaces `text-primary`, badges, cards del catálogo, botones, etc. |
+| **Solución sugerida** | Oscurecer `--primary` (p. ej. `#006699` o superior) o usar variantes con contraste ≥ 4.5:1 |
+
+#### Otras comprobaciones
+
+| Verificación | Estado |
+|--------------|--------|
+| Jerarquía de encabezados (h1–h6) | Aprobado |
+| Etiquetas en formularios (registro / login) | Aprobado |
+| Trampas de foco | No detectadas |
+| Navegación Tab (Inicio) | Aprobado |
+| Navegación Tab (registro, login, docs) | Fallido (menor) — foco llega a `body` en el ciclo |
+
+> Abre [`Accesibilidad/Accesibilidad.html`](Accesibilidad/Accesibilidad.html) para ver el detalle completo con capturas.
 
 ---
 
